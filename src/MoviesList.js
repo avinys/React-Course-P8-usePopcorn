@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { tempMovieData } from "./App";
 import { Movie } from "./Movie";
 
 export function MoviesList({ movies, onSelectMovielick }) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.REACT_APP_API_KEY;
 const API_LINK = `http://www.omdbapi.com/?apikey=${API_KEY}`;
 
 export function useMovies(query) {

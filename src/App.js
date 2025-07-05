@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { NavBar } from "./NavBar";
 import { Main } from "./Main";
@@ -13,6 +13,7 @@ import { MovieDetails } from "./MovieDetails";
 import { Loader } from "./Loader";
 import { ErrorMessage } from "./ErrorMessage";
 import { useMovies } from "./useMovies";
+import { useLocalStorageState } from "./useLocalStorageState";
 
 // export const tempMovieData = [
 //     {
@@ -58,7 +59,7 @@ import { useMovies } from "./useMovies";
 
 export const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.REACT_APP_API_KEY;
 const API_LINK = `http://www.omdbapi.com/?apikey=${API_KEY}`;
 
 export default function App() {
@@ -71,12 +72,14 @@ export default function App() {
 
     const { movies, error, isLoading } = useMovies(query, closeMovie);
 
+    const [watched, setWatched] = useLocalStorageState("watched", []);
+
     // const [watched, setWatched] = useState([]);
 
-    const [watched, setWatched] = useState(() => {
-        const storedValue = localStorage.getItem("watched");
-        return JSON.parse(storedValue);
-    });
+    // const [watched, setWatched] = useState(() => {
+    //     const storedValue = localStorage.getItem("watched");
+    //     return JSON.parse(storedValue);
+    // });
 
     const handleSelectMovie = (id) => {
         setSelectedId((selectedId) => (selectedId === id ? null : id));
@@ -91,10 +94,6 @@ export default function App() {
     const handleDeleteWatched = (id) => {
         setWatched(watched.filter((mov) => mov.imdbID !== id));
     };
-
-    useEffect(() => {
-        localStorage.setItem("watched", JSON.stringify(watched));
-    }, [watched]);
 
     return (
         <>
